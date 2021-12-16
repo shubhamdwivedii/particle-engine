@@ -45,9 +45,21 @@ func (p *Particle) Draw(screen *ebiten.Image) {
 	p.OP.GeoM.Rotate(p.Angle)
 	p.OP.GeoM.Scale(p.Size, p.Size)
 
-	r, g, b, a := p.Color.RGBA()
-	rr, gg, bb, aa := float64(uint8(r))/255, float64(uint8(g))/255, float64(uint8(b))/255, float64(uint8(a))/255
-	p.OP.ColorM.Scale(rr, gg, bb, aa)
+	R, G, B, _ := p.Color.RGBA()
+	// rr, gg, bb, aa := float64(uint8(r))/255, float64(uint8(g))/255, float64(uint8(b))/255, float64(uint8(a))/255
+
+	// fmt.Println(rr*255, gg*255, bb*255, aa*255)
+	// // p.OP.ColorM.Scale(rr, gg, bb, aa)
+	// p.OP.ColorM.Translate(255, 0, 0, 255)
+
+	// Set color
+	p.OP.ColorM.Scale(0, 0, 0, 1)
+	r := float64(uint8(R>>8)) / 255
+	g := float64(uint8(G>>8)) / 255
+	b := float64(uint8(B>>8)) / 255
+	p.OP.ColorM.Translate(r, g, b, 0)
+
+	// p.OP.ColorM.Translate(rr, gg, bb, aa)
 	p.OP.GeoM.Translate(p.X, p.Y)
 	screen.DrawImage(p.Img, p.OP)
 }
