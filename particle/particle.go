@@ -16,14 +16,16 @@ type Particle struct {
 	Angle           float64
 	AngularVelocity float64 // rotation speed
 	Color           color.Color
+	FadeRate        float64
 	Size            float64
 	TTL             float64
 	OP              *ebiten.DrawImageOptions
+	Alpha           float64
 }
 
-func New(img *ebiten.Image, x, y, v, direction, angle, angV float64, col color.Color, size, ttl float64) *Particle {
+func New(img *ebiten.Image, x, y, v, direction, angle, angV float64, col color.Color, fadeR, size, ttl float64) *Particle {
 	op := &ebiten.DrawImageOptions{}
-	return &Particle{img, x, y, v, direction, angle, angV, col, size, ttl, op}
+	return &Particle{img, x, y, v, direction, angle, angV, col, fadeR, size, ttl, op, 1}
 }
 
 func (p *Particle) Update() {
@@ -36,6 +38,7 @@ func (p *Particle) Update() {
 	p.Y += vy
 
 	p.Angle += p.AngularVelocity
+	p.Alpha -= p.FadeRate
 }
 
 func (p *Particle) Draw(screen *ebiten.Image) {
@@ -53,7 +56,7 @@ func (p *Particle) Draw(screen *ebiten.Image) {
 	// p.OP.ColorM.Translate(255, 0, 0, 255)
 
 	// Set color
-	p.OP.ColorM.Scale(0, 0, 0, 1)
+	p.OP.ColorM.Scale(0, 0, 0, p.Alpha)
 	r := float64(uint8(R>>8)) / 255
 	g := float64(uint8(G>>8)) / 255
 	b := float64(uint8(B>>8)) / 255

@@ -22,12 +22,32 @@ type Emitter struct {
 	Particles *list.List // list of pointers
 	Textures  []*ebiten.Image
 	Colors    []color.Color
+	OP        EmitterOptions
 }
 
-func New(textures []*ebiten.Image, x, y float64, colors []color.Color) *Emitter {
+type EmitterOptions struct {
+	MinVelocity        float64
+	MaxVelocity        float64
+	MinDirection       float64
+	MaxDirection       float64
+	MinAngularVelocity float64
+	MaxAngularVelocity float64
+	MinSize            float64
+	MaxSize            float64
+	MinTTL             float64
+	MaxTTL             float64
+	MinFadeRate        float64
+	MaxFadeRate        float64
+}
+
+func NewEmitterOptions() EmitterOptions {
+	return EmitterOptions{-2, 2, -math.Pi, math.Pi, 0.02, 0.4, 0.5, 1.5, 20, 40, 0.002, 0.01}
+}
+
+func New(textures []*ebiten.Image, x, y float64, colors []color.Color, options EmitterOptions) *Emitter {
 	// var particles []*p.Particle
 	particles := list.New()
-	return &Emitter{x, y, particles, textures, colors}
+	return &Emitter{x, y, particles, textures, colors, options}
 }
 
 func GetRandomFloat64(min, max float64) float64 {
@@ -37,17 +57,15 @@ func GetRandomFloat64(min, max float64) float64 {
 func (e *Emitter) Generate() {
 	img := e.Textures[rand.Intn(len(e.Textures))]
 	x, y := e.X, e.Y
-	velocity := GetRandomFloat64(-2, 2)
-	direction := GetRandomFloat64(-math.Pi, math.Pi)
-	angularV := GetRandomFloat64(0.02, 0.4)
-
+	velocity := GetRandomFloat64(e.OP.MinVelocity, e.OP.MaxVelocity)
+	direction := GetRandomFloat64(e.OP.MinDirection, e.OP.MaxDirection)
+	angularV := GetRandomFloat64(e.OP.MinAngularVelocity, e.OP.MaxAngularVelocity)
 	col := e.Colors[rand.Intn(len(e.Colors))]
-	size := GetRandomFloat64(0.5, 1.5)
+	size := GetRandomFloat64(e.OP.MinSize, e.OP.MaxSize)
+	ttl := GetRandomFloat64(e.OP.MinTTL, e.OP.MaxTTL)
+	fadeRate := GetRandomFloat64(e.OP.MinFadeRate, e.OP.MaxFadeRate)
 
-	ttl := GetRandomFloat64(20, 40)
-
-	particle := p.New(img, x, y, velocity, direction, 0, angularV, col, size, ttl)
-
+	particle := p.New(img, x, y, velocity, direction, 0, angularV, col, fadeRate, size, ttl)
 	e.Particles.PushBack(particle)
 }
 
