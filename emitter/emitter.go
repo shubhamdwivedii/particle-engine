@@ -51,9 +51,14 @@ func (e *Emitter) Generate() {
 	e.Particles.PushBack(particle)
 }
 
-func (e *Emitter) Move(x, y float64) {
+func (e *Emitter) MoveTo(x, y float64) {
 	e.X = x
 	e.Y = y
+}
+
+func (e *Emitter) MoveBy(dx, dy float64) {
+	e.X += dx
+	e.Y += dy
 }
 
 func (e *Emitter) Update() {
