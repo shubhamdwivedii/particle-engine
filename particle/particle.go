@@ -41,7 +41,14 @@ func (p *Particle) Update() {
 
 	p.Angle += p.AngularVelocity
 	p.Alpha -= p.FadeRate
-	p.Scale += p.ScaleRate
+
+	if p.Scale > 0 {
+		p.Scale += p.ScaleRate
+	} else {
+		if p.Scale < 0 {
+			p.Scale = 0
+		}
+	}
 }
 
 func (p *Particle) Draw(screen *ebiten.Image) {
