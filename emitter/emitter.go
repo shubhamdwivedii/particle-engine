@@ -48,7 +48,6 @@ func NewEmitterOptions() EmitterOptions {
 }
 
 func New(textures []*ebiten.Image, x, y float64, colors []color.Color, options EmitterOptions) *Emitter {
-	// var particles []*p.Particle
 	particles := list.New()
 	return &Emitter{x, y, particles, textures, colors, options}
 }
