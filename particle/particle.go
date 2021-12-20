@@ -27,7 +27,9 @@ type Particle struct {
 
 func New(img *ebiten.Image, x, y, v, direction, angle, angV float64, col color.Color, fadeR, scale, scaleR, ttl float64, changeColor bool) *Particle {
 	op := &ebiten.DrawImageOptions{}
-	return &Particle{img, x, y, v, direction, angle, angV, col, fadeR, scale, scaleR, ttl, op, 1, changeColor}
+	_, _, _, a := col.RGBA()
+	alpha := float64(uint8(a>>8)) / 255
+	return &Particle{img, x, y, v, direction, angle, angV, col, fadeR, scale, scaleR, ttl, op, alpha, changeColor}
 }
 
 func (p *Particle) Update() {
