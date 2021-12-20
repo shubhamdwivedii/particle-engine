@@ -72,6 +72,8 @@ func (p *Particle) Draw(screen *ebiten.Image) {
 		g := float64(uint8(G>>8)) / 255
 		b := float64(uint8(B>>8)) / 255
 		p.OP.ColorM.Translate(r, g, b, 0)
+	} else {
+		p.OP.ColorM.Scale(1, 1, 1, p.Alpha)
 	}
 
 	// p.OP.ColorM.Translate(rr, gg, bb, aa)
