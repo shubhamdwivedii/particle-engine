@@ -21,11 +21,12 @@ type Particle struct {
 	TTL             float64
 	OP              *ebiten.DrawImageOptions
 	Alpha           float64
+	ChangeColor     bool
 }
 
-func New(img *ebiten.Image, x, y, v, direction, angle, angV float64, col color.Color, fadeR, size, ttl float64) *Particle {
+func New(img *ebiten.Image, x, y, v, direction, angle, angV float64, col color.Color, fadeR, size, ttl float64, changeColor bool) *Particle {
 	op := &ebiten.DrawImageOptions{}
-	return &Particle{img, x, y, v, direction, angle, angV, col, fadeR, size, ttl, op, 1}
+	return &Particle{img, x, y, v, direction, angle, angV, col, fadeR, size, ttl, op, 1, changeColor}
 }
 
 func (p *Particle) Update() {
@@ -56,11 +57,13 @@ func (p *Particle) Draw(screen *ebiten.Image) {
 	// p.OP.ColorM.Translate(255, 0, 0, 255)
 
 	// Set color
-	p.OP.ColorM.Scale(0, 0, 0, p.Alpha)
-	r := float64(uint8(R>>8)) / 255
-	g := float64(uint8(G>>8)) / 255
-	b := float64(uint8(B>>8)) / 255
-	p.OP.ColorM.Translate(r, g, b, 0)
+	if p.ChangeColor {
+		p.OP.ColorM.Scale(0, 0, 0, p.Alpha)
+		r := float64(uint8(R>>8)) / 255
+		g := float64(uint8(G>>8)) / 255
+		b := float64(uint8(B>>8)) / 255
+		p.OP.ColorM.Translate(r, g, b, 0)
+	}
 
 	// p.OP.ColorM.Translate(rr, gg, bb, aa)
 	p.OP.GeoM.Translate(p.X, p.Y)

@@ -36,12 +36,13 @@ type EmitterOptions struct {
 	MaxSize            float64
 	MinTTL             float64
 	MaxTTL             float64
+	ChangeColor        bool
 	MinFadeRate        float64
 	MaxFadeRate        float64
 }
 
 func NewEmitterOptions() EmitterOptions {
-	return EmitterOptions{-2, 2, -math.Pi, math.Pi, 0.02, 0.4, 0.5, 1.5, 20, 40, 0.002, 0.01}
+	return EmitterOptions{-2, 2, -math.Pi, math.Pi, 0.02, 0.4, 0.5, 1.5, 20, 40, true, 0.002, 0.01}
 }
 
 func New(textures []*ebiten.Image, x, y float64, colors []color.Color, options EmitterOptions) *Emitter {
@@ -64,8 +65,8 @@ func (e *Emitter) Generate() {
 	size := GetRandomFloat64(e.OP.MinSize, e.OP.MaxSize)
 	ttl := GetRandomFloat64(e.OP.MinTTL, e.OP.MaxTTL)
 	fadeRate := GetRandomFloat64(e.OP.MinFadeRate, e.OP.MaxFadeRate)
-
-	particle := p.New(img, x, y, velocity, direction, 0, angularV, col, fadeRate, size, ttl)
+	changeColor := e.OP.ChangeColor
+	particle := p.New(img, x, y, velocity, direction, 0, angularV, col, fadeRate, size, ttl, changeColor)
 	e.Particles.PushBack(particle)
 }
 
