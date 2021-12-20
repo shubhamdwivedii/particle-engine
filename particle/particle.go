@@ -61,11 +61,6 @@ func (p *Particle) Draw(screen *ebiten.Image) {
 	p.OP.GeoM.Scale(p.Scale, p.Scale)
 
 	R, G, B, _ := p.Color.RGBA()
-	// rr, gg, bb, aa := float64(uint8(r))/255, float64(uint8(g))/255, float64(uint8(b))/255, float64(uint8(a))/255
-
-	// fmt.Println(rr*255, gg*255, bb*255, aa*255)
-	// // p.OP.ColorM.Scale(rr, gg, bb, aa)
-	// p.OP.ColorM.Translate(255, 0, 0, 255)
 
 	// Set color
 	if p.ChangeColor {
@@ -78,7 +73,6 @@ func (p *Particle) Draw(screen *ebiten.Image) {
 		p.OP.ColorM.Scale(1, 1, 1, p.Alpha)
 	}
 
-	// p.OP.ColorM.Translate(rr, gg, bb, aa)
 	p.OP.GeoM.Translate(p.X, p.Y)
 	screen.DrawImage(p.Img, p.OP)
 }

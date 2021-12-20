@@ -25,7 +25,6 @@ func init() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	// particle = p.New(img, 160, 120, 0, math.Pi/2, 0, 0.02, color.RGBA{128, 0, 0, 255}, 2, 6000)
 	options := e.NewEmitterOptions()
 	emitter = e.New([]*ebiten.Image{img}, 160, 120, []color.Color{
 		color.RGBA{147, 231, 251, 255},
