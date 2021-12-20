@@ -17,16 +17,17 @@ type Particle struct {
 	AngularVelocity float64 // rotation speed
 	Color           color.Color
 	FadeRate        float64
-	Size            float64
+	Scale           float64
+	ScaleRate       float64
 	TTL             float64
 	OP              *ebiten.DrawImageOptions
 	Alpha           float64
 	ChangeColor     bool
 }
 
-func New(img *ebiten.Image, x, y, v, direction, angle, angV float64, col color.Color, fadeR, size, ttl float64, changeColor bool) *Particle {
+func New(img *ebiten.Image, x, y, v, direction, angle, angV float64, col color.Color, fadeR, scale, scaleR, ttl float64, changeColor bool) *Particle {
 	op := &ebiten.DrawImageOptions{}
-	return &Particle{img, x, y, v, direction, angle, angV, col, fadeR, size, ttl, op, 1, changeColor}
+	return &Particle{img, x, y, v, direction, angle, angV, col, fadeR, scale, scaleR, ttl, op, 1, changeColor}
 }
 
 func (p *Particle) Update() {
@@ -40,6 +41,7 @@ func (p *Particle) Update() {
 
 	p.Angle += p.AngularVelocity
 	p.Alpha -= p.FadeRate
+	p.Scale += p.ScaleRate
 }
 
 func (p *Particle) Draw(screen *ebiten.Image) {
@@ -47,7 +49,7 @@ func (p *Particle) Draw(screen *ebiten.Image) {
 	sx, sy := p.Img.Size()
 	p.OP.GeoM.Translate(-float64(sx)/2, -float64(sy)/2) // Move pivot to centre
 	p.OP.GeoM.Rotate(p.Angle)
-	p.OP.GeoM.Scale(p.Size, p.Size)
+	p.OP.GeoM.Scale(p.Scale, p.Scale)
 
 	R, G, B, _ := p.Color.RGBA()
 	// rr, gg, bb, aa := float64(uint8(r))/255, float64(uint8(g))/255, float64(uint8(b))/255, float64(uint8(a))/255
