@@ -1,4 +1,4 @@
-package Emitter
+package emitter
 
 import (
 	"container/list"
@@ -13,7 +13,6 @@ import (
 
 func init() {
 	rand.Seed(time.Now().UnixNano())
-
 }
 
 type Emitter struct {
