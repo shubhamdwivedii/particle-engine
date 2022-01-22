@@ -5,6 +5,7 @@ import (
 	"math"
 
 	"github.com/hajimehoshi/ebiten/v2"
+	scr "github.com/shubhamdwivedii/particle-engine/screen"
 )
 
 type Particle struct {
@@ -55,7 +56,7 @@ func (p *Particle) Update() {
 	}
 }
 
-func (p *Particle) Draw(screen *ebiten.Image) {
+func (p *Particle) Draw(screen scr.Screen) {
 	p.OP.GeoM.Reset()
 	sx, sy := p.Img.Size()
 	p.OP.GeoM.Translate(-float64(sx)/2, -float64(sy)/2) // Move pivot to centre

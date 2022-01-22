@@ -9,6 +9,7 @@ import (
 
 	"github.com/hajimehoshi/ebiten/v2"
 	p "github.com/shubhamdwivedii/particle-engine/particle"
+	scr "github.com/shubhamdwivedii/particle-engine/screen"
 )
 
 func init() {
@@ -93,7 +94,7 @@ func (e *Emitter) Update() {
 	}
 }
 
-func (e *Emitter) Draw(screen *ebiten.Image) {
+func (e *Emitter) Draw(screen scr.Screen) {
 	for part := e.Particles.Front(); part != nil; part = part.Next() {
 		particle := part.Value.(*p.Particle)
 		particle.Draw(screen)
