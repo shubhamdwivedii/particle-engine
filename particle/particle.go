@@ -12,8 +12,6 @@ type Particle struct {
 	Img             *ebiten.Image
 	X               float64
 	Y               float64
-	RenderOffsetX   float64
-	RenderOffsetY   float64
 	Velocity        float64
 	Direction       float64 // direction of movement
 	Angle           float64
@@ -28,11 +26,11 @@ type Particle struct {
 	ChangeColor     bool
 }
 
-func New(img *ebiten.Image, x, y, offsetX, offsetY, v, direction, angle, angV float64, col color.Color, fadeR, scale, scaleR, ttl float64, changeColor bool) *Particle {
+func New(img *ebiten.Image, x, y, v, direction, angle, angV float64, col color.Color, fadeR, scale, scaleR, ttl float64, changeColor bool) *Particle {
 	op := &ebiten.DrawImageOptions{}
 	_, _, _, a := col.RGBA()
 	alpha := float64(uint8(a>>8)) / 255
-	return &Particle{img, x, y, offsetX, offsetY, v, direction, angle, angV, col, fadeR, scale, scaleR, ttl, op, alpha, changeColor}
+	return &Particle{img, x, y, v, direction, angle, angV, col, fadeR, scale, scaleR, ttl, op, alpha, changeColor}
 }
 
 func (p *Particle) Update() {
@@ -76,6 +74,6 @@ func (p *Particle) Draw(screen scr.Screen) {
 		p.OP.ColorM.Scale(1, 1, 1, p.Alpha)
 	}
 
-	p.OP.GeoM.Translate(p.X+p.RenderOffsetX, p.Y+p.RenderOffsetY)
+	p.OP.GeoM.Translate(p.X, p.Y)
 	screen.DrawImage(p.Img, p.OP)
 }
