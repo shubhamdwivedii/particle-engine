@@ -58,11 +58,16 @@ func GetRandomFloat64(min, max float64) float64 {
 
 func (e *Emitter) Generate() {
 	img := e.Textures[rand.Intn(len(e.Textures))]
+	var col color.Color = color.RGBA{255, 255, 255, 255}
 	x, y := e.X, e.Y
 	velocity := GetRandomFloat64(e.OP.MinVelocity, e.OP.MaxVelocity)
 	direction := GetRandomFloat64(e.OP.MinDirection, e.OP.MaxDirection)
 	angularV := GetRandomFloat64(e.OP.MinAngularVelocity, e.OP.MaxAngularVelocity)
-	col := e.Colors[rand.Intn(len(e.Colors))]
+	if e.Colors != nil {
+		col = e.Colors[rand.Intn(len(e.Colors))]
+	} else {
+		e.OP.ChangeColor = false
+	}
 	scale := GetRandomFloat64(e.OP.MinScale, e.OP.MaxScale)
 	ttl := GetRandomFloat64(e.OP.MinTTL, e.OP.MaxTTL)
 	fadeRate := GetRandomFloat64(e.OP.MinFadeRate, e.OP.MaxFadeRate)
