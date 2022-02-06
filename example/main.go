@@ -38,7 +38,7 @@ func (g *Game) Update() error {
 	cpx, cpy = ebiten.CursorPosition()
 	emitter.MoveTo(float64(cpx), float64(cpy))
 	emitter.Generate()
-	emitter.Update()
+	emitter.Update(1)
 	return nil
 }
 

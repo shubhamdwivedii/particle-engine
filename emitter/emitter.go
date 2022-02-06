@@ -87,10 +87,10 @@ func (e *Emitter) MoveBy(dx, dy float64) {
 	e.Y += dy
 }
 
-func (e *Emitter) Update() {
+func (e *Emitter) Update(deltatime float64) {
 	for part := e.Particles.Front(); part != nil; part = part.Next() {
 		particle := part.Value.(*p.Particle)
-		particle.Update()
+		particle.Update(deltatime)
 		if particle.TTL <= 0 {
 			defer e.Particles.Remove(part)
 		}
