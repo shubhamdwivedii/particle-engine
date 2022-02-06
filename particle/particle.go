@@ -34,7 +34,7 @@ func New(img *ebiten.Image, x, y, v, direction, angle, angV float64, col color.C
 }
 
 func (p *Particle) Update(deltatime float64) {
-	p.TTL--
+	p.TTL -= deltatime
 
 	vx := math.Cos(p.Direction) * p.Velocity * deltatime
 	vy := math.Sin(p.Direction) * p.Velocity * deltatime
@@ -43,7 +43,7 @@ func (p *Particle) Update(deltatime float64) {
 	p.Y += vy
 
 	p.Angle += p.AngularVelocity * deltatime
-	p.Alpha -= p.FadeRate * deltatime
+	p.Alpha -= (p.FadeRate * deltatime)
 
 	if p.Scale > 0 {
 		p.Scale += p.ScaleRate * deltatime
